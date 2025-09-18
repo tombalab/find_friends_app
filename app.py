@@ -2,11 +2,11 @@
 # It takes user input (age, education, favorite animals, favorite places, gender).
 # The model predicts which cluster (group) the user belongs to.
 # It shows:
-    # - The cluster’s name and description (from a JSON file).
-    # - The distribution of people in the same cluster (age, education, animals, places, gender).
+    # The cluster’s name and description (from a JSON file).
+    # The distribution of people in the same cluster (age, education, animals, places, gender).
 
 
-# Imports & Setup
+# --- 1. Imports & Setup ---
     # streamlit for the web UI.
     # pandas for data handling.
     # pycaret.clustering to load a model and predict cluster assignments.
@@ -25,6 +25,11 @@ DATA = 'welcome_survey_simple_v1.csv'
 
 CLUSTER_NAMES_AND_DESCRIPTIONS = 'welcome_survey_cluster_names_and_descriptions_v1.json'
 
+# --- 2. Helper Functions with Caching --- 
+    # get_model() → loads the saved clustering model once.
+    # get_cluster_names_and_descriptions() → loads cluster labels & explanations from JSON.
+    # get_all_participants() → loads dataset of all survey participants, adds their predicted clusters.
+# These are wrapped with @st.cache_data, so results don’t reload every time the app refreshes.
 
 @st.cache_data
 def get_model():
@@ -42,6 +47,14 @@ def get_all_participants():
 
     return df_with_clusters
 
+# --- 3. User Input Form (Sidebar) ---
+    # Sidebar asks the user about themselves:
+        # Age group
+        # Education level
+        # Favorite animals
+        # Favorite place
+        # Gender
+    
 with st.sidebar:
     st.header("Powiedz nam coś o sobie")
     st.markdown("Pomożemy Ci znaleźć osoby, które mają podobne zainteresowania")
@@ -51,6 +64,7 @@ with st.sidebar:
     fav_place = st.selectbox("Ulubione miejsce", ['Nad wodą', 'W lesie', 'W górach', 'Inne'])
     gender = st.radio("Płeć", ['Mężczyzna', 'Kobieta'])
 
+    # Creates a DataFrame (person_df) with that single user’s info.
     person_df = pd.DataFrame([
         {
             'age': age,
@@ -61,18 +75,34 @@ with st.sidebar:
         }
     ])
 
+# --- 4. Model Prediction ---
+
+# Loads the model and dataset of all participants.
 model = get_model()
 all_df = get_all_participants()
 cluster_names_and_descriptions = get_cluster_names_and_descriptions()
 
+# Predicts the user’s cluster:
 predicted_cluster_id = predict_model(model, data=person_df)["Cluster"].values[0]
+
+# Looks up name & description of that cluster from the JSON file.
 predicted_cluster_data = cluster_names_and_descriptions[predicted_cluster_id]
 
+# --- 5. Display User’s Cluster ---
+
+# Shows cluster name + description
 st.header(f"Najbliżej Ci do grupy {predicted_cluster_data['name']}")
 st.markdown(predicted_cluster_data['description'])
+
+# Filters dataset to participants in the same cluster:
 same_cluster_df = all_df[all_df["Cluster"] == predicted_cluster_id]
+
+# Shows how many participants belong to that cluster (st.metric)
 st.metric("Liczba twoich znajomych", len(same_cluster_df))
 
+# --- 6. Visualizations of Group ---
+
+#  
 st.header("Osoby z grupy")
 fig = px.histogram(same_cluster_df.sort_values("age"), x="age")
 fig.update_layout(
