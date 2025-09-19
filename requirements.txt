@@ -1,8 +1,7 @@
-python-dotenv
-qdrant-client
-streamlit
-pandas
-numpy
+streamlit>=1.25
+pandas>=1.5
+numpy>=1.24
 scikit-learn
-pycaret
+pycaret[clustering]==3.3.2
 plotly
+qdrant-client

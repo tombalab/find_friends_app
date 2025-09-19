@@ -1,147 +1,102 @@
-# The app loads a pretrained clustering model (PyCaret).
-# It takes user input (age, education, favorite animals, favorite places, gender).
-# The model predicts which cluster (group) the user belongs to.
-# It shows:
-    # The cluster’s name and description (from a JSON file).
-    # The distribution of people in the same cluster (age, education, animals, places, gender).
-
-
-# --- 1. Imports & Setup ---
-    # streamlit for the web UI.
-    # pandas for data handling.
-    # pycaret.clustering to load a model and predict cluster assignments.
-    # plotly.express for interactive charts.
-    # JSON for loading cluster descriptions.
-
+# --- Imports & Setup ---
 import json
 import streamlit as st
-import pandas as pd  # type: ignore
-from pycaret.clustering import load_model, predict_model  # type: ignore
-import plotly.express as px  # type: ignore
+import pandas as pd
+import plotly.express as px
 
-MODEL_NAME = 'welcome_survey_clustering_pipeline_v1'
+# ✅ PyCaret is heavy — pin version in requirements.txt
+from pycaret.clustering import load_model, predict_model  
 
-DATA = 'welcome_survey_simple_v1.csv'
+# --- Qdrant client (optional, for external DB) ---
+# Only initialize if QDRANT_URL/QDRANT_API_KEY are set in Streamlit Secrets
+from qdrant_client import QdrantClient
 
-CLUSTER_NAMES_AND_DESCRIPTIONS = 'welcome_survey_cluster_names_and_descriptions_v1.json'
+# --- Secrets (Streamlit Cloud way) ---
+env = {}
+if 'QDRANT_URL' in st.secrets:
+    env['QDRANT_URL'] = st.secrets['QDRANT_URL']
+if 'QDRANT_API_KEY' in st.secrets:
+    env['QDRANT_API_KEY'] = st.secrets['QDRANT_API_KEY']
 
-# --- 2. Helper Functions with Caching --- 
-    # get_model() → loads the saved clustering model once.
-    # get_cluster_names_and_descriptions() → loads cluster labels & explanations from JSON.
-    # get_all_participants() → loads dataset of all survey participants, adds their predicted clusters.
-# These are wrapped with @st.cache_data, so results don’t reload every time the app refreshes.
+# Example: if you want to use Qdrant (not mandatory for CSV version)
+if env.get("QDRANT_URL") and env.get("QDRANT_API_KEY"):
+    qdrant = QdrantClient(
+        url=env["QDRANT_URL"],
+        api_key=env["QDRANT_API_KEY"]
+    )
 
-@st.cache_data
+# --- Filenames (must exist in repo or in Git LFS if large) ---
+MODEL_NAME = "welcome_survey_clustering_pipeline_v1"
+DATA = "welcome_survey_simple_v1.csv"
+CLUSTER_NAMES_AND_DESCRIPTIONS = "welcome_survey_cluster_names_and_descriptions_v1.json"
+
+
+# --- Helper Functions with Caching ---
+@st.cache_resource
 def get_model():
     return load_model(MODEL_NAME)
 
 @st.cache_data
 def get_cluster_names_and_descriptions():
-    with open(CLUSTER_NAMES_AND_DESCRIPTIONS, "r", encoding='utf-8') as f:
-        return json.loads(f.read())
+    with open(CLUSTER_NAMES_AND_DESCRIPTIONS, "r", encoding="utf-8") as f:
+        return json.load(f)
 
 @st.cache_data
-def get_all_participants():
-    all_df = pd.read_csv(DATA, sep=';')
-    df_with_clusters = predict_model(model, data=all_df)
+def get_all_participants(model):
+    all_df = pd.read_csv(DATA, sep=";")
+    return predict_model(model, data=all_df)
 
-    return df_with_clusters
 
-# --- 3. User Input Form (Sidebar) ---
-    # Sidebar asks the user about themselves:
-        # Age group
-        # Education level
-        # Favorite animals
-        # Favorite place
-        # Gender
-    
+# --- Sidebar: User Input ---
 with st.sidebar:
     st.header("Powiedz nam coś o sobie")
     st.markdown("Pomożemy Ci znaleźć osoby, które mają podobne zainteresowania")
-    age = st.selectbox("Wiek", ['<18', '25-34', '45-54', '35-44', '18-24', '>=65', '55-64', 'unknown'])
+
+    age = st.selectbox("Wiek", ['<18', '18-24', '25-34', '35-44', '45-54', '55-64', '>=65', 'unknown'])
     edu_level = st.selectbox("Wykształcenie", ['Podstawowe', 'Średnie', 'Wyższe'])
     fav_animals = st.selectbox("Ulubione zwierzęta", ['Brak ulubionych', 'Psy', 'Koty', 'Inne', 'Koty i Psy'])
     fav_place = st.selectbox("Ulubione miejsce", ['Nad wodą', 'W lesie', 'W górach', 'Inne'])
     gender = st.radio("Płeć", ['Mężczyzna', 'Kobieta'])
 
-    # Creates a DataFrame (person_df) with that single user’s info.
-    person_df = pd.DataFrame([
-        {
-            'age': age,
-            'edu_level': edu_level,
-            'fav_animals': fav_animals,
-            'fav_place': fav_place,
-            'gender': gender,
-        }
-    ])
+    person_df = pd.DataFrame([{
+        'age': age,
+        'edu_level': edu_level,
+        'fav_animals': fav_animals,
+        'fav_place': fav_place,
+        'gender': gender,
+    }])
 
-# --- 4. Model Prediction ---
 
-# Loads the model and dataset of all participants.
+# --- Load resources ---
 model = get_model()
-all_df = get_all_participants()
+all_df = get_all_participants(model)
 cluster_names_and_descriptions = get_cluster_names_and_descriptions()
 
-# Predicts the user’s cluster:
+# --- Prediction for this user ---
 predicted_cluster_id = predict_model(model, data=person_df)["Cluster"].values[0]
+predicted_cluster_data = cluster_names_and_descriptions[str(predicted_cluster_id)]
 
-# Looks up name & description of that cluster from the JSON file.
-predicted_cluster_data = cluster_names_and_descriptions[predicted_cluster_id]
-
-# --- 5. Display User’s Cluster ---
-
-# Shows cluster name + description
+# --- Show results ---
 st.header(f"Najbliżej Ci do grupy {predicted_cluster_data['name']}")
 st.markdown(predicted_cluster_data['description'])
 
-# Filters dataset to participants in the same cluster:
 same_cluster_df = all_df[all_df["Cluster"] == predicted_cluster_id]
-
-# Shows how many participants belong to that cluster (st.metric)
 st.metric("Liczba twoich znajomych", len(same_cluster_df))
-
-# --- 6. Visualizations of Group ---
 
 st.header("Osoby z grupy")
 
-# Creates histograms with Plotly (Age distribution, Education distribution, Favorite animals, Favorite places, Gender)
-# Each histogram is interactive and shows how the group is composed.
-fig = px.histogram(same_cluster_df.sort_values("age"), x="age")
-fig.update_layout(
-    title="Rozkład wieku w grupie",
-    xaxis_title="Wiek",
-    yaxis_title="Liczba osób",
-)
-st.plotly_chart(fig)
-
-fig = px.histogram(same_cluster_df, x="edu_level")
-fig.update_layout(
-    title="Rozkład wykształcenia w grupie",
-    xaxis_title="Wykształcenie",
-    yaxis_title="Liczba osób",
-)
-st.plotly_chart(fig)
-
-fig = px.histogram(same_cluster_df, x="fav_animals")
-fig.update_layout(
-    title="Rozkład ulubionych zwierząt w grupie",
-    xaxis_title="Ulubione zwierzęta",
-    yaxis_title="Liczba osób",
-)
-st.plotly_chart(fig)
-
-fig = px.histogram(same_cluster_df, x="fav_place")
-fig.update_layout(
-    title="Rozkład ulubionych miejsc w grupie",
-    xaxis_title="Ulubione miejsce",
-    yaxis_title="Liczba osób",
-)
-st.plotly_chart(fig)
-
-fig = px.histogram(same_cluster_df, x="gender")
-fig.update_layout(
-    title="Rozkład płci w grupie",
-    xaxis_title="Płeć",
-    yaxis_title="Liczba osób",
-)
-st.plotly_chart(fig)
+# --- Visualizations ---
+for col, title, xtitle in [
+    ("age", "Rozkład wieku w grupie", "Wiek"),
+    ("edu_level", "Rozkład wykształcenia w grupie", "Wykształcenie"),
+    ("fav_animals", "Rozkład ulubionych zwierząt w grupie", "Ulubione zwierzęta"),
+    ("fav_place", "Rozkład ulubionych miejsc w grupie", "Ulubione miejsce"),
+    ("gender", "Rozkład płci w grupie", "Płeć"),
+]:
+    fig = px.histogram(same_cluster_df.sort_values(col), x=col)
+    fig.update_layout(
+        title=title,
+        xaxis_title=xtitle,
+        yaxis_title="Liczba osób",
+    )
+    st.plotly_chart(fig)
