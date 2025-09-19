@@ -102,8 +102,10 @@ st.metric("Liczba twoich znajomych", len(same_cluster_df))
 
 # --- 6. Visualizations of Group ---
 
-#  
 st.header("Osoby z grupy")
+
+# Creates histograms with Plotly (Age distribution, Education distribution, Favorite animals, Favorite places, Gender)
+# Each histogram is interactive and shows how the group is composed.
 fig = px.histogram(same_cluster_df.sort_values("age"), x="age")
 fig.update_layout(
     title="Rozkład wieku w grupie",
