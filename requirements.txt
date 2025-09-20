@@ -1,8 +1,9 @@
-streamlit==1.27.2
-pandas==1.5.3
-numpy==1.23.5
-scikit-learn==1.2.2
-pycaret[clustering]==3.0.4
-plotly==5.18.0
-python-dotenv==1.0.1
-qdrant-client==1.9.0
+streamlit
+pandas
+numpy
+scikit-learn
+pycaret[clustering]
+plotly
+python-dotenv
+qdrant-client
+setuptools
