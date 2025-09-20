@@ -42,9 +42,11 @@ def get_cluster_names_and_descriptions():
         return json.load(f)
 
 @st.cache_data
-def get_all_participants(model):
-    all_df = pd.read_csv(DATA, sep=";")
-    return predict_model(model, data=all_df)
+def get_all_participants():
+    all_df = pd.read_csv(DATA, sep=';')
+    # Use the global model inside instead of passing it
+    df_with_clusters = predict_model(model, data=all_df)
+    return df_with_clusters
 
 
 # --- Sidebar: User Input ---
@@ -69,7 +71,7 @@ with st.sidebar:
 
 # --- Load resources ---
 model = get_model()
-all_df = get_all_participants(model)
+all_df = get_all_participants()
 cluster_names_and_descriptions = get_cluster_names_and_descriptions()
 
 # --- Prediction for this user ---
