@@ -69,7 +69,7 @@ def get_all_participants():
         # Gender
     
 with st.sidebar:
-    st.header("Powiedz nam coś o sobie")
+    st.header("Podaj swój wiek, wykształcenie, ulubione zwierzę, ulubione miejsce na wypoczynek i płeć, a my pomożemy ci znaleźć osoby o podonbych zainteresowaniach")
     st.markdown("Pomożemy Ci znaleźć osoby, które mają podobne zainteresowania")
     age = st.selectbox("Wiek", ['<18', '25-34', '45-54', '35-44', '18-24', '>=65', '55-64', 'unknown'])
     edu_level = st.selectbox("Wykształcenie", ['Podstawowe', 'Średnie', 'Wyższe'])
