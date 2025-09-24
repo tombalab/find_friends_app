@@ -19,7 +19,7 @@ DATA = 'welcome_survey_simple_v1.csv'
 CLUSTER_NAMES_AND_DESCRIPTIONS = 'welcome_survey_cluster_names_and_descriptions_v1.json'
 
 # --- Funkcje pomocnicze ---
-@st.cache_data
+@st.cache_resource
 def get_model():
     return load_model(MODEL_NAME)
 
@@ -29,9 +29,9 @@ def get_cluster_names_and_descriptions():
         return json.loads(f.read())
 
 @st.cache_data
-def get_all_participants(model):
+def get_all_participants():
     all_df = pd.read_csv(DATA, sep=';')
-    df_with_clusters = predict_model(model, data=all_df)
+    df_with_clusters = predict_model(get_model(), data=all_df)
     return df_with_clusters
 
 # --- Formularz boczny ---
@@ -56,7 +56,7 @@ with st.sidebar:
 
 # --- Model & Dane ---
 model = get_model()
-all_df = get_all_participants(model)
+all_df = get_all_participants()
 cluster_names_and_descriptions = get_cluster_names_and_descriptions()
 
 predicted_cluster_id = predict_model(model, data=person_df)["Cluster"].values[0]
@@ -68,7 +68,6 @@ st.header(f"🎯 Najbliżej Ci do grupy: {predicted_cluster_data['name']}")
 st.markdown(predicted_cluster_data['description'])
 
 # --- Dodanie grafiki do grupy ---
-# Zakładamy że obrazy są w katalogu ./images/cluster_<id>.png
 image_path = f"images/cluster_{predicted_cluster_id}.png"
 try:
     st.image(image_path, use_column_width=True)
