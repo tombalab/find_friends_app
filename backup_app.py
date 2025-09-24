@@ -1,9 +1,8 @@
-# DEEPSEEK assist
 # The app loads a pretrained clustering model (PyCaret).
 # It takes user input (age, education, favorite animals, favorite places, gender).
 # The model predicts which cluster (group) the user belongs to.
 # It shows:
-    # The cluster's name and description (from a JSON file).
+    # The cluster’s name and description (from a JSON file).
     # The distribution of people in the same cluster (age, education, animals, places, gender).
 
 
@@ -19,6 +18,7 @@ import streamlit as st
 import pandas as pd  # type: ignore
 from pycaret.clustering import load_model, predict_model  # type: ignore
 import plotly.express as px  # type: ignore
+import plotly.graph_objects as go #ICON
 from qdrant_client import QdrantClient
 from dotenv import dotenv_values
 
@@ -43,7 +43,7 @@ CLUSTER_NAMES_AND_DESCRIPTIONS = 'welcome_survey_cluster_names_and_descriptions_
     # get_model() → loads the saved clustering model once.
     # get_cluster_names_and_descriptions() → loads cluster labels & explanations from JSON.
     # get_all_participants() → loads dataset of all survey participants, adds their predicted clusters.
-# These are wrapped with @st.cache_data, so results don't reload every time the app refreshes.
+# These are wrapped with @st.cache_data, so results don’t reload every time the app refreshes.
 
 @st.cache_data
 def get_model():
@@ -58,7 +58,64 @@ def get_cluster_names_and_descriptions():
 def get_all_participants():
     all_df = pd.read_csv(DATA, sep=';')
     df_with_clusters = predict_model(model, data=all_df)
+
     return df_with_clusters
+
+# --- ICONS ---
+def create_icon_figure(icon_symbol, color="#4CAF50"):
+    """Create a Plotly figure with an icon"""
+    fig = go.Figure(go.Scatter(
+        x=[0.5], y=[0.5],
+        text=[icon_symbol],
+        mode="text",
+        textfont=dict(size=80, color=color)
+    ))
+    
+    fig.update_layout(
+        width=150,
+        height=150,
+        xaxis=dict(visible=False, range=[0, 1]),
+        yaxis=dict(visible=False, range=[0, 1]),
+        margin=dict(l=0, r=0, t=0, b=0),
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
+    )
+    
+    return fig
+# Icon mapping based on cluster characteristics
+def get_cluster_icon(cluster_name, description):
+    icon_map = {
+        "explorer": "🧭",
+        "thinker": "💡",
+        "socializer": "👥",
+        "creator": "🎨",
+        "adventurer": "⚡",
+        "analyst": "📊",
+        "dreamer": "🌙",
+        "leader": "👑"
+    }
+    
+    # Find the best matching icon
+    cluster_lower = cluster_name.lower()
+    for key, icon in icon_map.items():
+        if key in cluster_lower:
+            return icon
+    
+    # Fallback based on description keywords
+    desc_lower = description.lower()
+    if any(word in desc_lower for word in ['creative', 'art', 'design']):
+        return "🎨"
+    elif any(word in desc_lower for word in ['social', 'people', 'team']):
+        return "👥"
+    elif any(word in desc_lower for word in ['think', 'analyze', 'logic']):
+        return "💡"
+    elif any(word in desc_lower for word in ['explore', 'travel', 'discover']):
+        return "🧭"
+    
+    return "👤"
+
+# --- ICONS END ---
+
 
 # --- 3. User Input Form (Sidebar) ---
     # Sidebar asks the user about themselves:
@@ -77,7 +134,7 @@ with st.sidebar:
     fav_place = st.selectbox("Ulubione miejsce", ['Nad wodą', 'W lesie', 'W górach', 'Inne'])
     gender = st.radio("Płeć", ['Mężczyzna', 'Kobieta'])
 
-    # Creates a DataFrame (person_df) with that single user's info.
+    # Creates a DataFrame (person_df) with that single user’s info.
     person_df = pd.DataFrame([
         {
             'age': age,
@@ -95,94 +152,51 @@ model = get_model()
 all_df = get_all_participants()
 cluster_names_and_descriptions = get_cluster_names_and_descriptions()
 
-# Predicts the user's cluster:
+# Predicts the user’s cluster:
 predicted_cluster_id = predict_model(model, data=person_df)["Cluster"].values[0]
 
 # Looks up name & description of that cluster from the JSON file.
 predicted_cluster_data = cluster_names_and_descriptions[predicted_cluster_id]
 
-# --- 5. Display User's Cluster ---
+# --- 5. Display User’s Cluster ---
 
-# Add CSS styling for better appearance
-st.markdown("""
-<style>
-    .cluster-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 15px;
-        padding: 25px;
-        color: white;
-        margin: 20px 0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    .cluster-icon {
-        font-size: 80px;
-        text-align: center;
-        margin-bottom: 15px;
-    }
-    .cluster-name {
-        font-size: 32px;
-        font-weight: bold;
-        text-align: center;
-        margin-bottom: 15px;
-    }
-    .cluster-description {
-        font-size: 18px;
-        text-align: center;
-        line-height: 1.5;
-    }
-</style>
-""", unsafe_allow_html=True)
+# --- ICONS code ---
 
-# Icon mapping based on cluster characteristics
-def get_cluster_icon(cluster_name):
-    icon_map = {
-        "Profesjonaliści nad wodą": "🌊",
-        "Średnio wykształceni miłośnicy gór": "⛰️",
-        "Młodzi profesjonaliści leśni": "🌳",
-        "Miłośnicy kotów i psów nad wodą": "🐱🐶",
-        "Młodzież bez ulubionych zwierząt": "👥",
-        "Wykształceni bez ulubionych zwierząt": "🎓",
-        "Miłośnicy kotów w górach": "🐱⛰️",
-        "Dojrzali miłośnicy psów": "🐕"
-    }
-    return icon_map.get(cluster_name, "👤")
+# Modified display section:
+st.header("Twoja grupa")
 
-# Color mapping for different clusters
-def get_cluster_color(cluster_name):
-    color_map = {
-        "Profesjonaliści nad wodą": "#4ECDC4",
-        "Średnio wykształceni miłośnicy gór": "#45B7D1", 
-        "Młodzi profesjonaliści leśni": "#96CEB4",
-        "Miłośnicy kotów i psów nad wodą": "#FF6B6B",
-        "Młodzież bez ulubionych zwierząt": "#FECA57",
-        "Wykształceni bez ulubionych zwierząt": "#FF9FF3",
-        "Miłośnicy kotów w górach": "#54A0FF",
-        "Dojrzali miłośnicy psów": "#5F27CD"
-    }
-    return color_map.get(cluster_name, "#95A5A6")
+col1, col2, col3 = st.columns([1, 3, 1])
 
-# Display cluster information with icon and styling
-theme_color = get_cluster_color(predicted_cluster_data['name'])
-cluster_icon = get_cluster_icon(predicted_cluster_data['name'])
+with col2:
+    # Center the content
+    icon_symbol = get_cluster_icon(
+        predicted_cluster_data['name'], 
+        predicted_cluster_data['description']
+    )
+    
+    # Display large icon
+    st.markdown(f"<div style='text-align: center; font-size: 80px;'>{icon_symbol}</div>", 
+               unsafe_allow_html=True)
+    
+    st.header(f"{predicted_cluster_data['name']}")
+    st.markdown(predicted_cluster_data['description'])
 
-st.markdown(f"""
-<div class="cluster-card" style="background: linear-gradient(135deg, {theme_color} 0%, {theme_color}80 100%);">
-    <div class="cluster-icon">{cluster_icon}</div>
-    <div class="cluster-name">{predicted_cluster_data['name']}</div>
-    <div class="cluster-description">{predicted_cluster_data['description']}</div>
-</div>
-""", unsafe_allow_html=True)
+# --- END OF ICONS code ---
 
 
-# --- 6. Visualizations of Group ---
+# Shows cluster name + description
+st.header(f"Najbliżej Ci do grupy {predicted_cluster_data['name']}")
+st.markdown(predicted_cluster_data['description'])
 
 # Filters dataset to participants in the same cluster:
 same_cluster_df = all_df[all_df["Cluster"] == predicted_cluster_id]
 
 # Shows how many participants belong to that cluster (st.metric)
-st.metric("Liczba osób w Twojej grupie", len(same_cluster_df))
+st.metric("Liczba twoich znajomych", len(same_cluster_df))
 
-st.header("Charakterystyka Twojej grupy")
+# --- 6. Visualizations of Group ---
+
+st.header("Osoby z grupy")
 
 # Creates histograms with Plotly (Age distribution, Education distribution, Favorite animals, Favorite places, Gender)
 # Each histogram is interactive and shows how the group is composed.
@@ -225,3 +239,4 @@ fig.update_layout(
     yaxis_title="Liczba osób",
 )
 st.plotly_chart(fig)
+
