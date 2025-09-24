@@ -25,18 +25,18 @@ env = dotenv_values(".env")
 
 ### Secrets using Streamlit Cloud Mechanism
 # https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/secrets-management
-if 'QDRANT_URL' in st.secrets:
-    env['QDRANT_URL'] = st.secrets['QDRANT_URL']
-if 'QDRANT_API_KEY' in st.secrets:
-    env['QDRANT_API_KEY'] = st.secrets['QDRANT_API_KEY']
+# if 'QDRANT_URL' in st.secrets:
+#    env['QDRANT_URL'] = st.secrets['QDRANT_URL']
+# if 'QDRANT_API_KEY' in st.secrets:
+#    env['QDRANT_API_KEY'] = st.secrets['QDRANT_API_KEY']
 ###
 
 
-MODEL_NAME = 'welcome_survey_clustering_pipeline_v1'
+MODEL_NAME = 'welcome_survey_clustering_pipeline_v2'
 
-DATA = 'welcome_survey_simple_v1.csv'
+DATA = 'welcome_survey_simple_v2.csv'
 
-CLUSTER_NAMES_AND_DESCRIPTIONS = 'welcome_survey_cluster_names_and_descriptions_v1.json'
+CLUSTER_NAMES_AND_DESCRIPTIONS = 'welcome_survey_cluster_names_and_descriptions_v2.json'
 
 # --- 2. Helper Functions with Caching --- 
     # get_model() → loads the saved clustering model once.
