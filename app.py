@@ -18,6 +18,7 @@ import streamlit as st
 import pandas as pd  # type: ignore
 from pycaret.clustering import load_model, predict_model  # type: ignore
 import plotly.express as px  # type: ignore
+import plotly.graph_objects as go #ICON
 from qdrant_client import QdrantClient
 from dotenv import dotenv_values
 
@@ -60,6 +61,62 @@ def get_all_participants():
 
     return df_with_clusters
 
+# --- ICONS ---
+def create_icon_figure(icon_symbol, color="#4CAF50"):
+    """Create a Plotly figure with an icon"""
+    fig = go.Figure(go.Scatter(
+        x=[0.5], y=[0.5],
+        text=[icon_symbol],
+        mode="text",
+        textfont=dict(size=80, color=color)
+    ))
+    
+    fig.update_layout(
+        width=150,
+        height=150,
+        xaxis=dict(visible=False, range=[0, 1]),
+        yaxis=dict(visible=False, range=[0, 1]),
+        margin=dict(l=0, r=0, t=0, b=0),
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
+    )
+    
+    return fig
+# Icon mapping based on cluster characteristics
+def get_cluster_icon(cluster_name, description):
+    icon_map = {
+        "explorer": "🧭",
+        "thinker": "💡",
+        "socializer": "👥",
+        "creator": "🎨",
+        "adventurer": "⚡",
+        "analyst": "📊",
+        "dreamer": "🌙",
+        "leader": "👑"
+    }
+    
+    # Find the best matching icon
+    cluster_lower = cluster_name.lower()
+    for key, icon in icon_map.items():
+        if key in cluster_lower:
+            return icon
+    
+    # Fallback based on description keywords
+    desc_lower = description.lower()
+    if any(word in desc_lower for word in ['creative', 'art', 'design']):
+        return "🎨"
+    elif any(word in desc_lower for word in ['social', 'people', 'team']):
+        return "👥"
+    elif any(word in desc_lower for word in ['think', 'analyze', 'logic']):
+        return "💡"
+    elif any(word in desc_lower for word in ['explore', 'travel', 'discover']):
+        return "🧭"
+    
+    return "👤"
+
+# --- ICONS END ---
+
+
 # --- 3. User Input Form (Sidebar) ---
     # Sidebar asks the user about themselves:
         # Age group
@@ -69,8 +126,8 @@ def get_all_participants():
         # Gender
     
 with st.sidebar:
-    st.header("Znajdujemy osoby o podobnych zainteresowaniach")
-    st.markdown("Podaj swój wiek, wykształcenie, ulubione zwierzę, ulubione miejsce na wypoczynek i płeć, a my pomożemy ci znaleźć osoby o podobne do ciebie")
+    st.header("Powiedz coś o sobie...")
+    st.markdown("... a my pomożemy Ci znaleźć osoby podobne do ciebie")
     age = st.selectbox("Wiek", ['<18', '25-34', '45-54', '35-44', '18-24', '>=65', '55-64', 'unknown'])
     edu_level = st.selectbox("Wykształcenie", ['Podstawowe', 'Średnie', 'Wyższe'])
     fav_animals = st.selectbox("Ulubione zwierzęta", ['Brak ulubionych', 'Psy', 'Koty', 'Inne', 'Koty i Psy'])
@@ -102,6 +159,30 @@ predicted_cluster_id = predict_model(model, data=person_df)["Cluster"].values[0]
 predicted_cluster_data = cluster_names_and_descriptions[predicted_cluster_id]
 
 # --- 5. Display User’s Cluster ---
+
+# --- ICONS code ---
+
+# Modified display section:
+st.header("Twoja grupa")
+
+col1, col2, col3 = st.columns([1, 3, 1])
+
+with col2:
+    # Center the content
+    icon_symbol = get_cluster_icon(
+        predicted_cluster_data['name'], 
+        predicted_cluster_data['description']
+    )
+    
+    # Display large icon
+    st.markdown(f"<div style='text-align: center; font-size: 80px;'>{icon_symbol}</div>", 
+               unsafe_allow_html=True)
+    
+    st.header(f"{predicted_cluster_data['name']}")
+    st.markdown(predicted_cluster_data['description'])
+
+# --- END OF ICONS code ---
+
 
 # Shows cluster name + description
 st.header(f"Najbliżej Ci do grupy {predicted_cluster_data['name']}")
