@@ -17,8 +17,8 @@ s = setup(
 
 print("✅ Setup zakończony")
 
-# 3. Stwórz model (np. kmeans z 5 klastrami)
-kmeans = create_model("kmeans", num_clusters=5)
+# 3. Stwórz model (np. kmeans z 8 klastrami)
+kmeans = create_model("kmeans", num_clusters=8)
 print("✅ Model utworzony")
 
 # 4. Zapisz model do pliku .pkl

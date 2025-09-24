@@ -1947,3 +1947,316 @@ Alternately, you can install this by running `pip install pycaret[models]`
 'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
 2025-09-23 08:58:51,276:WARNING:
 'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-09-24 04:49:00,265:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-09-24 04:49:00,265:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-09-24 04:49:00,266:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-09-24 04:49:00,266:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-09-24 04:49:03,052:INFO:PyCaret ClusteringExperiment
+2025-09-24 04:49:03,052:INFO:Logging name: cluster-default-name
+2025-09-24 04:49:03,052:INFO:ML Usecase: MLUsecase.CLUSTERING
+2025-09-24 04:49:03,052:INFO:version 3.3.2
+2025-09-24 04:49:03,052:INFO:Initializing setup()
+2025-09-24 04:49:03,052:INFO:self.USI: 0a6d
+2025-09-24 04:49:03,052:INFO:self._variable_keys: {'seed', 'idx', 'log_plots_param', 'exp_id', 'USI', '_ml_usecase', '_available_plots', 'logging_param', 'exp_name_log', 'memory', 'gpu_param', 'n_jobs_param', 'pipeline', 'html_param', 'data', 'gpu_n_jobs_param', 'X'}
+2025-09-24 04:49:03,052:INFO:Checking environment
+2025-09-24 04:49:03,052:INFO:python_version: 3.11.13
+2025-09-24 04:49:03,052:INFO:python_build: ('main', 'Jun  5 2025 13:03:15')
+2025-09-24 04:49:03,052:INFO:machine: AMD64
+2025-09-24 04:49:03,069:INFO:platform: Windows-10-10.0.22000-SP0
+2025-09-24 04:49:03,073:INFO:Memory: svmem(total=17051746304, available=3866726400, percent=77.3, used=13185019904, free=3866726400)
+2025-09-24 04:49:03,073:INFO:Physical Core: 2
+2025-09-24 04:49:03,074:INFO:Logical Core: 4
+2025-09-24 04:49:03,074:INFO:Checking libraries
+2025-09-24 04:49:03,074:INFO:System:
+2025-09-24 04:49:03,074:INFO:    python: 3.11.13 | packaged by Anaconda, Inc. | (main, Jun  5 2025, 13:03:15) [MSC v.1929 64 bit (AMD64)]
+2025-09-24 04:49:03,074:INFO:executable: C:\Users\Dell\OneDrive\Desktop\od_zera_do_ai\find_friends_app\env\python.exe
+2025-09-24 04:49:03,074:INFO:   machine: Windows-10-10.0.22000-SP0
+2025-09-24 04:49:03,075:INFO:PyCaret required dependencies:
+2025-09-24 04:49:03,311:INFO:                 pip: 25.1
+2025-09-24 04:49:03,311:INFO:          setuptools: 78.1.1
+2025-09-24 04:49:03,311:INFO:             pycaret: 3.3.2
+2025-09-24 04:49:03,311:INFO:             IPython: 9.4.0
+2025-09-24 04:49:03,311:INFO:          ipywidgets: 8.1.7
+2025-09-24 04:49:03,311:INFO:                tqdm: 4.67.1
+2025-09-24 04:49:03,311:INFO:               numpy: 1.26.4
+2025-09-24 04:49:03,311:INFO:              pandas: 2.1.4
+2025-09-24 04:49:03,311:INFO:              jinja2: 3.1.6
+2025-09-24 04:49:03,311:INFO:               scipy: 1.11.4
+2025-09-24 04:49:03,311:INFO:              joblib: 1.3.2
+2025-09-24 04:49:03,311:INFO:             sklearn: 1.4.2
+2025-09-24 04:49:03,311:INFO:                pyod: 2.0.5
+2025-09-24 04:49:03,311:INFO:            imblearn: 0.14.0
+2025-09-24 04:49:03,311:INFO:   category_encoders: 2.7.0
+2025-09-24 04:49:03,312:INFO:            lightgbm: 4.6.0
+2025-09-24 04:49:03,312:INFO:               numba: 0.61.2
+2025-09-24 04:49:03,312:INFO:            requests: 2.32.4
+2025-09-24 04:49:03,312:INFO:          matplotlib: 3.7.5
+2025-09-24 04:49:03,312:INFO:          scikitplot: 0.3.7
+2025-09-24 04:49:03,312:INFO:         yellowbrick: 1.5
+2025-09-24 04:49:03,312:INFO:              plotly: 5.24.1
+2025-09-24 04:49:03,312:INFO:    plotly-resampler: Not installed
+2025-09-24 04:49:03,312:INFO:             kaleido: 1.0.0
+2025-09-24 04:49:03,312:INFO:           schemdraw: 0.15
+2025-09-24 04:49:03,312:INFO:         statsmodels: 0.14.5
+2025-09-24 04:49:03,312:INFO:              sktime: 0.26.0
+2025-09-24 04:49:03,312:INFO:               tbats: 1.1.3
+2025-09-24 04:49:03,312:INFO:            pmdarima: 2.0.4
+2025-09-24 04:49:03,313:INFO:              psutil: 7.0.0
+2025-09-24 04:49:03,313:INFO:          markupsafe: 3.0.2
+2025-09-24 04:49:03,313:INFO:             pickle5: Not installed
+2025-09-24 04:49:03,313:INFO:         cloudpickle: 3.1.1
+2025-09-24 04:49:03,313:INFO:         deprecation: 2.1.0
+2025-09-24 04:49:03,313:INFO:              xxhash: 3.5.0
+2025-09-24 04:49:03,313:INFO:           wurlitzer: Not installed
+2025-09-24 04:49:03,313:INFO:PyCaret optional dependencies:
+2025-09-24 04:49:03,335:INFO:                shap: Not installed
+2025-09-24 04:49:03,335:INFO:           interpret: Not installed
+2025-09-24 04:49:03,335:INFO:                umap: Not installed
+2025-09-24 04:49:03,335:INFO:     ydata_profiling: Not installed
+2025-09-24 04:49:03,335:INFO:  explainerdashboard: Not installed
+2025-09-24 04:49:03,335:INFO:             autoviz: Not installed
+2025-09-24 04:49:03,336:INFO:           fairlearn: Not installed
+2025-09-24 04:49:03,336:INFO:          deepchecks: Not installed
+2025-09-24 04:49:03,336:INFO:             xgboost: Not installed
+2025-09-24 04:49:03,336:INFO:            catboost: Not installed
+2025-09-24 04:49:03,336:INFO:              kmodes: Not installed
+2025-09-24 04:49:03,336:INFO:             mlxtend: Not installed
+2025-09-24 04:49:03,336:INFO:       statsforecast: Not installed
+2025-09-24 04:49:03,336:INFO:        tune_sklearn: Not installed
+2025-09-24 04:49:03,336:INFO:                 ray: Not installed
+2025-09-24 04:49:03,336:INFO:            hyperopt: Not installed
+2025-09-24 04:49:03,336:INFO:              optuna: Not installed
+2025-09-24 04:49:03,336:INFO:               skopt: Not installed
+2025-09-24 04:49:03,336:INFO:              mlflow: Not installed
+2025-09-24 04:49:03,336:INFO:              gradio: Not installed
+2025-09-24 04:49:03,336:INFO:             fastapi: Not installed
+2025-09-24 04:49:03,336:INFO:             uvicorn: Not installed
+2025-09-24 04:49:03,336:INFO:              m2cgen: Not installed
+2025-09-24 04:49:03,336:INFO:           evidently: Not installed
+2025-09-24 04:49:03,336:INFO:               fugue: Not installed
+2025-09-24 04:49:03,337:INFO:           streamlit: 1.48.0
+2025-09-24 04:49:03,337:INFO:             prophet: Not installed
+2025-09-24 04:49:03,337:INFO:None
+2025-09-24 04:49:03,337:INFO:Set up data.
+2025-09-24 04:49:03,349:INFO:Set up index.
+2025-09-24 04:49:03,350:INFO:Assigning column types.
+2025-09-24 04:49:03,353:INFO:Engine successfully changes for model 'kmeans' to 'sklearn'.
+2025-09-24 04:49:03,354:INFO:Engine for model 'dbscan' has not been set explicitly, hence returning None.
+2025-09-24 04:49:03,354:WARNING:
+'kmodes' is a soft dependency and not included in the pycaret installation. Please run: `pip install kmodes` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-09-24 04:49:03,354:INFO:Engine for model 'dbscan' has not been set explicitly, hence returning None.
+2025-09-24 04:49:03,354:WARNING:
+'kmodes' is a soft dependency and not included in the pycaret installation. Please run: `pip install kmodes` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-09-24 04:49:03,354:INFO:Engine successfully changes for model 'dbscan' to 'sklearn'.
+2025-09-24 04:49:03,355:WARNING:
+'kmodes' is a soft dependency and not included in the pycaret installation. Please run: `pip install kmodes` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-09-24 04:49:03,355:WARNING:
+'kmodes' is a soft dependency and not included in the pycaret installation. Please run: `pip install kmodes` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-09-24 04:49:03,357:INFO:Preparing preprocessing pipeline...
+2025-09-24 04:49:03,358:INFO:Set up simple imputation.
+2025-09-24 04:49:03,362:INFO:Set up encoding of ordinal features.
+2025-09-24 04:49:03,363:INFO:Set up encoding of categorical features.
+2025-09-24 04:49:03,363:INFO:Set up feature normalization.
+2025-09-24 04:49:03,549:INFO:Finished creating preprocessing pipeline.
+2025-09-24 04:49:03,586:INFO:Pipeline: Pipeline(memory=FastMemory(location=C:\Users\Dell\AppData\Local\Temp\joblib),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=[], transformer=SimpleImputer())),
+                ('categorical_imputer',
+                 TransformerWrapper(include=['age', 'edu_level', 'fav_animals',
+                                             'fav_place', 'gender'],
+                                    transformer=SimpleImputer(strategy='most_frequent'))),
+                ('ordinal_encoding',
+                 Transf...
+                                                                         'data_type': dtype('O'),
+                                                                         'mapping': Kobieta      0
+Mê¿czyzna    1
+NaN         -1
+dtype: int64}]))),
+                ('onehot_encoding',
+                 TransformerWrapper(include=['age', 'edu_level', 'fav_animals',
+                                             'fav_place'],
+                                    transformer=OneHotEncoder(cols=['age',
+                                                                    'edu_level',
+                                                                    'fav_animals',
+                                                                    'fav_place'],
+                                                              handle_missing='return_nan',
+                                                              use_cat_names=True))),
+                ('normalize',
+                 TransformerWrapper(transformer=StandardScaler()))])
+2025-09-24 04:49:03,586:INFO:Creating final display dataframe.
+2025-09-24 04:49:03,637:INFO:Setup _display_container:                  Description                 Value
+0                 Session id                   123
+1        Original data shape              (229, 5)
+2     Transformed data shape             (229, 21)
+3       Categorical features                     5
+4   Rows with missing values                 13.1%
+5                 Preprocess                  True
+6            Imputation type                simple
+7         Numeric imputation                  mean
+8     Categorical imputation                  mode
+9   Maximum one-hot encoding                    -1
+10           Encoding method                  None
+11                 Normalize                  True
+12          Normalize method                zscore
+13                  CPU Jobs                    -1
+14                   Use GPU                 False
+15            Log Experiment                 False
+16           Experiment Name  cluster-default-name
+17                       USI                  0a6d
+2025-09-24 04:49:03,646:WARNING:
+'kmodes' is a soft dependency and not included in the pycaret installation. Please run: `pip install kmodes` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-09-24 04:49:03,647:WARNING:
+'kmodes' is a soft dependency and not included in the pycaret installation. Please run: `pip install kmodes` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-09-24 04:49:03,647:INFO:setup() successfully completed in 0.6s...............
+2025-09-24 04:49:03,648:INFO:Initializing create_model()
+2025-09-24 04:49:03,648:INFO:create_model(self=<pycaret.clustering.oop.ClusteringExperiment object at 0x0000016C8D3299D0>, estimator=kmeans, num_clusters=8, fraction=0.05, ground_truth=None, round=4, fit_kwargs=None, experiment_custom_tags=None, verbose=True, system=True, add_to_model_list=True, raise_num_clusters=False, display=None, kwargs={})
+2025-09-24 04:49:03,648:INFO:Checking exceptions
+2025-09-24 04:49:03,692:INFO:Importing untrained model
+2025-09-24 04:49:03,694:INFO:K-Means Clustering Imported successfully
+2025-09-24 04:49:03,697:INFO:Fitting Model
+2025-09-24 04:49:04,194:WARNING:C:\Users\Dell\OneDrive\Desktop\od_zera_do_ai\find_friends_app\env\Lib\site-packages\sklearn\cluster\_kmeans.py:1446: UserWarning: KMeans is known to have a memory leak on Windows with MKL, when there are less chunks than available threads. You can avoid it by setting the environment variable OMP_NUM_THREADS=1.
+  warnings.warn(
+
+2025-09-24 04:49:04,236:INFO:KMeans(random_state=123)
+2025-09-24 04:49:04,236:INFO:create_models() successfully completed......................................
+2025-09-24 04:49:04,237:INFO:Uploading results into container
+2025-09-24 04:49:04,238:INFO:Uploading model into container now
+2025-09-24 04:49:04,249:INFO:_master_model_container: 1
+2025-09-24 04:49:04,249:INFO:_display_container: 2
+2025-09-24 04:49:04,249:INFO:KMeans(random_state=123)
+2025-09-24 04:49:04,249:INFO:create_model() successfully completed......................................
+2025-09-24 04:49:04,389:INFO:Initializing save_model()
+2025-09-24 04:49:04,390:INFO:save_model(model=KMeans(random_state=123), model_name=welcome_survey_clustering_pipeline_v2, prep_pipe_=Pipeline(memory=FastMemory(location=C:\Users\Dell\AppData\Local\Temp\joblib),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=[], transformer=SimpleImputer())),
+                ('categorical_imputer',
+                 TransformerWrapper(include=['age', 'edu_level', 'fav_animals',
+                                             'fav_place', 'gender'],
+                                    transformer=SimpleImputer(strategy='most_frequent'))),
+                ('ordinal_encoding',
+                 Transf...
+                                                                         'data_type': dtype('O'),
+                                                                         'mapping': Kobieta      0
+Mê¿czyzna    1
+NaN         -1
+dtype: int64}]))),
+                ('onehot_encoding',
+                 TransformerWrapper(include=['age', 'edu_level', 'fav_animals',
+                                             'fav_place'],
+                                    transformer=OneHotEncoder(cols=['age',
+                                                                    'edu_level',
+                                                                    'fav_animals',
+                                                                    'fav_place'],
+                                                              handle_missing='return_nan',
+                                                              use_cat_names=True))),
+                ('normalize',
+                 TransformerWrapper(transformer=StandardScaler()))]), verbose=True, use_case=MLUsecase.CLUSTERING, kwargs={})
+2025-09-24 04:49:04,390:INFO:Adding model into prep_pipe
+2025-09-24 04:49:04,402:INFO:welcome_survey_clustering_pipeline_v2.pkl saved in current working directory
+2025-09-24 04:49:04,439:INFO:Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=[], transformer=SimpleImputer())),
+                ('categorical_imputer',
+                 TransformerWrapper(include=['age', 'edu_level', 'fav_animals',
+                                             'fav_place', 'gender'],
+                                    transformer=SimpleImputer(strategy='most_frequent'))),
+                ('ordinal_encoding',
+                 TransformerWrapper(include=['gender'],
+                                    transfo...
+Mê¿czyzna    1
+NaN         -1
+dtype: int64}]))),
+                ('onehot_encoding',
+                 TransformerWrapper(include=['age', 'edu_level', 'fav_animals',
+                                             'fav_place'],
+                                    transformer=OneHotEncoder(cols=['age',
+                                                                    'edu_level',
+                                                                    'fav_animals',
+                                                                    'fav_place'],
+                                                              handle_missing='return_nan',
+                                                              use_cat_names=True))),
+                ('normalize', TransformerWrapper(transformer=StandardScaler())),
+                ('trained_model', KMeans(random_state=123))])
+2025-09-24 04:49:04,439:INFO:save_model() successfully completed......................................
+2025-09-24 05:02:33,098:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-09-24 05:02:33,098:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-09-24 05:02:33,098:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-09-24 05:02:33,098:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-09-24 05:04:40,223:INFO:Initializing load_model()
+2025-09-24 05:04:40,224:INFO:load_model(model_name=welcome_survey_clustering_pipeline_v2, platform=None, authentication=None, verbose=True)
+2025-09-24 05:18:43,300:INFO:Initializing predict_model()
+2025-09-24 05:18:43,301:INFO:predict_model(self=<pycaret.clustering.oop.ClusteringExperiment object at 0x000001E5ECF92DD0>, estimator=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=[], transformer=SimpleImputer())),
+                ('categorical_imputer',
+                 TransformerWrapper(include=['age', 'edu_level', 'fav_animals',
+                                             'fav_place', 'gender'],
+                                    transformer=SimpleImputer(strategy='most_frequent'))),
+                ('ordinal_encoding',
+                 TransformerWrapper(include=['gender'],
+                                    transfo...
+MÄ™Å¼czyzna    1
+NaN         -1
+dtype: int64}]))),
+                ('onehot_encoding',
+                 TransformerWrapper(include=['age', 'edu_level', 'fav_animals',
+                                             'fav_place'],
+                                    transformer=OneHotEncoder(cols=['age',
+                                                                    'edu_level',
+                                                                    'fav_animals',
+                                                                    'fav_place'],
+                                                              handle_missing='return_nan',
+                                                              use_cat_names=True))),
+                ('normalize', TransformerWrapper(transformer=StandardScaler())),
+                ('trained_model', KMeans(random_state=123))]), ml_usecase=None)
+2025-09-24 05:18:43,301:INFO:Set up data.
+2025-09-24 05:36:13,501:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-09-24 05:36:13,501:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-09-24 05:36:13,501:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-09-24 05:36:13,501:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-09-24 05:36:25,136:INFO:Initializing load_model()
+2025-09-24 05:36:25,137:INFO:load_model(model_name=welcome_survey_clustering_pipeline_v2, platform=None, authentication=None, verbose=True)
+2025-09-24 05:36:29,057:INFO:Initializing predict_model()
+2025-09-24 05:36:29,057:INFO:predict_model(self=<pycaret.clustering.oop.ClusteringExperiment object at 0x000001F715184750>, estimator=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=[], transformer=SimpleImputer())),
+                ('categorical_imputer',
+                 TransformerWrapper(include=['age', 'edu_level', 'fav_animals',
+                                             'fav_place', 'gender'],
+                                    transformer=SimpleImputer(strategy='most_frequent'))),
+                ('ordinal_encoding',
+                 TransformerWrapper(include=['gender'],
+                                    transfo...
+MÄ™Å¼czyzna    1
+NaN         -1
+dtype: int64}]))),
+                ('onehot_encoding',
+                 TransformerWrapper(include=['age', 'edu_level', 'fav_animals',
+                                             'fav_place'],
+                                    transformer=OneHotEncoder(cols=['age',
+                                                                    'edu_level',
+                                                                    'fav_animals',
+                                                                    'fav_place'],
+                                                              handle_missing='return_nan',
+                                                              use_cat_names=True))),
+                ('normalize', TransformerWrapper(transformer=StandardScaler())),
+                ('trained_model', KMeans(random_state=123))]), ml_usecase=None)
+2025-09-24 05:36:29,057:INFO:Set up data.
